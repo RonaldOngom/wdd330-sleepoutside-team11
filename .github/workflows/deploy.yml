@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  url: ${{ steps.deployment.outputs.page_url }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build site artifact
+        run: |
+          mkdir -p _site
+          cp Linksy/index.html _site/
+          mkdir -p _site/Styles _site/Scripts _site/Images
+          cp Linksy/Styles/styles.css _site/Styles/
+          cp Linksy/Scripts/script.js _site/Scripts/
+          cp -r Linksy/Images/. _site/Images/ 2>/dev/null || true
+          touch _site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          publish_dir: _site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
