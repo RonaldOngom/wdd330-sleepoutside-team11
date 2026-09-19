@@ -31,6 +31,17 @@ jobs:
           cp -r Linksy/Images/. _site/Images/ 2>/dev/null || true
           touch _site/.nojekyll
 
+      - name: Inject production API URL
+        run: |
+          if [ -n "$API_URL" ]; then
+            sed -i "s|http://127.0.0.1:8001/api|$API_URL|g" _site/index.html
+            echo "Injected production API URL into _site/index.html"
+          else
+            echo "LINKSY_API_URL secret not set; keeping development API URL"
+          fi
+        env:
+          API_URL: ${{ secrets.LINKSY_API_URL }}
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:

@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: linksy-backend
+    runtime: python
+    buildCommand: pip install -r Linksy/backend/requirements.txt
+    startCommand: cd Linksy/backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: LINKSY_SESSION_SECRET
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: "https://RonaldOngom.github.io"
+      - key: DB_PATH
+        value: /data/linksy.db
+      - key: UPLOAD_DIR
+        value: /data/uploads
+    disk:
+      name: linksy-data
+      mountPath: /data
+      sizeGB: 1
+    plan: free
+    autoDeploy:
+      branch: main

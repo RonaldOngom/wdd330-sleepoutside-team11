@@ -1125,9 +1125,42 @@ hr {
     grid-template-columns: 1fr;
   }
 
-  .inbox-panel,
+   .inbox-panel,
   .conversation-sidebar {
     border-right: none;
     border-bottom: 1px solid #e5e7eb;
   }
+}
+
+.api-status-banner {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+  background: #fff3cd;
+  border-bottom: 1px solid #ffe69c;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #664d03;
+}
+
+.api-status-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.api-status-dismiss {
+  border: 0;
+  background: transparent;
+  font-size: 18px;
+  color: #664d03;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.api-status-dismiss:hover {
+  background: rgba(0, 0, 0, 0.05);
 }

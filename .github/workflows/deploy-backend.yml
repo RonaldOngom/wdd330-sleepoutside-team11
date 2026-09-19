@@ -1,0 +1,23 @@
+name: Deploy Backend to Render
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Linksy/backend/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Render
+        uses: render-examples/render-deploy@v1
+        with:
+          api-key: ${{ secrets.RENDER_API_KEY }}

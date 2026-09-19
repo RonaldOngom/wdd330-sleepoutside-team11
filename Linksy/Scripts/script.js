@@ -5,7 +5,8 @@ const postText = document.querySelector("#postText");
 const postImageInput = document.querySelector("#post-image");
 const imagePreview = document.querySelector("#image-preview");
 const toast = document.querySelector("#toast");
-const API_BASE = "http://127.0.0.1:8001/api";
+const API_BASE = document.querySelector('meta[name="api-base"]')?.content.trim() || "http://127.0.0.1:8001/api";
+const API_ORIGIN = API_BASE.replace(/\/api\/?$/, "");
 const POSTS_PER_PAGE = 10;
 
 let feedOffset = 0;
@@ -131,7 +132,7 @@ function postHTML(post) {
         <img
           class="post-image"
           src="${escapeHTML(post.image_url.startsWith("/")
-            ? `http://127.0.0.1:8001${post.image_url}`
+            ? `${API_ORIGIN}${post.image_url}`
             : post.image_url)}"
           alt="Photo shared in a post"
           loading="lazy"
@@ -1195,7 +1196,35 @@ messageForm?.addEventListener("submit", async event => {
     await loadInbox();
   } catch (error) {
     showToast(error.message);
-  } finally {
-    sendMessageButton.disabled = false;
-  }
+    } finally {
+     sendMessageButton.disabled = false;
+   }
 });
+
+const apiStatusBanner = document.createElement("div");
+apiStatusBanner.id = "api-status-banner";
+apiStatusBanner.className = "api-status-banner";
+apiStatusBanner.hidden = true;
+apiStatusBanner.innerHTML =
+  '<div class="api-status-content">' +
+  '<span>Backend API unavailable. Login, posts, and messaging features are disabled.</span>' +
+  '<button type="button" class="api-status-dismiss" aria-label="Dismiss">Dismiss</button>' +
+  "</div>";
+apiStatusBanner
+  .querySelector(".api-status-dismiss")
+  .addEventListener("click", () => {
+    apiStatusBanner.hidden = true;
+  });
+document.body.prepend(apiStatusBanner);
+
+async function checkApiConnectivity() {
+  try {
+    await fetch(`${API_ORIGIN}/`, { method: "GET" });
+    apiStatusBanner.hidden = true;
+  } catch {
+    apiStatusBanner.hidden = false;
+  }
+}
+
+checkApiConnectivity();
+setInterval(checkApiConnectivity, 60000);

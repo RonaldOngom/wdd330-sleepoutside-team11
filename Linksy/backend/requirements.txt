@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+itsdangerous
+email-validator
+python-multipart

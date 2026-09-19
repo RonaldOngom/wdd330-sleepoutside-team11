@@ -19,7 +19,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "linksy.db"
+DB_PATH = Path(os.getenv("DB_PATH", str(BASE_DIR / "linksy.db")))
 
 # Set LINKSY_SESSION_SECRET in your environment before deployment.
 SESSION_SECRET = os.getenv(
@@ -169,7 +169,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-UPLOAD_DIR = Path(__file__).parent / "uploads"
+UPLOAD_DIR = Path(os.getenv("UPLOAD_DIR", str(BASE_DIR / "uploads")))
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 app.mount(
@@ -185,15 +185,16 @@ app.add_middleware(
     https_only=False  # Set True when deployed with HTTPS.
 )
 
-# Development-only CORS configuration.
-# Restrict this to your deployed frontend origin before production.
+# Restrict origins in production via the FRONTEND_ORIGIN env var.
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5500")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://127.0.0.1:5500",
         "http://localhost:5500",
         "http://127.0.0.1:8000",
-        "http://localhost:8000"
+        "http://localhost:8000",
+        frontend_origin,
     ],
     allow_credentials=True,
     allow_methods=["*"],
