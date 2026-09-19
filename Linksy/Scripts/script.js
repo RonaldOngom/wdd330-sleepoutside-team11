@@ -425,6 +425,7 @@ document.querySelector("#feelingButton").addEventListener("click", () => {
 
 document.querySelectorAll("[data-page]").forEach(button => {
   button.addEventListener("click", () => {
+    stopMessageRefresh();
     document.querySelectorAll(".nav-button").forEach(item => {
       item.classList.toggle("active", item === button);
     });
@@ -432,6 +433,12 @@ document.querySelectorAll("[data-page]").forEach(button => {
     const page = button.dataset.page;
     showToast(`${page.charAt(0).toUpperCase() + page.slice(1)} section selected.`);
   });
+});
+
+document.querySelectorAll(
+  "#open-profile-button, #open-discover-button, #open-notifications-button"
+).forEach(button => {
+  button.addEventListener("click", stopMessageRefresh);
 });
 
 document.querySelectorAll("[data-story]").forEach(button => {
@@ -459,6 +466,34 @@ const authButtons = document.querySelector("#authButtons");
 const profileArea = document.querySelector("#profileArea");
 const profileName = document.querySelector("#profileName");
 const profileAvatar = document.querySelector("#profileAvatar");
+let presenceTimer = null;
+let friendsPresenceTimer = null;
+
+async function sendPresenceHeartbeat() {
+  try {
+    await apiRequest("/presence/heartbeat", { method: "POST" });
+  } catch (error) {
+    console.error("Presence heartbeat failed:", error);
+  }
+}
+
+function startPresenceHeartbeat() {
+  if (presenceTimer) clearInterval(presenceTimer);
+
+  sendPresenceHeartbeat();
+  presenceTimer = setInterval(() => {
+    if (document.visibilityState === "visible") {
+      sendPresenceHeartbeat();
+    }
+  }, 30000);
+}
+
+function stopPresenceHeartbeat() {
+  if (presenceTimer) {
+    clearInterval(presenceTimer);
+    presenceTimer = null;
+  }
+}
 
 let authMode = "login";
 
@@ -559,6 +594,7 @@ authForm.addEventListener("submit", async event => {
       showAuthMessage("Account created! Please log in.", "success");
     } else {
       await loadCurrentUser();
+      startPresenceHeartbeat();
       await loadPosts({ reset: true });
       authPanel.hidden = true;
       showToast("Welcome to Linksy!");
@@ -591,6 +627,7 @@ async function loadCurrentUser() {
 
     authButtons.hidden = true;
     profileArea.hidden = false;
+    startPresenceHeartbeat();
 
     profileName.textContent = user.name;
     profileAvatar.textContent =
@@ -622,6 +659,12 @@ document.querySelector("#logoutButton").addEventListener("click", async () => {
       throw new Error("Logout failed.");
     }
 
+    stopMessageRefresh();
+    stopPresenceHeartbeat();
+    if (friendsPresenceTimer) {
+      clearInterval(friendsPresenceTimer);
+      friendsPresenceTimer = null;
+    }
     showLoggedOutState();
     await loadPosts({ reset: true });
     showToast("You have logged out.");
@@ -741,9 +784,12 @@ async function loadFriends() {
       ? friends.map(friend => `
           <div class="friend-item">
             ${escapeHTML(friend.name || friend.email)}
+            <span data-friend-presence="${friend.id}" class="presence-offline">Offline</span>
           </div>
         `).join("")
       : "<p>You have no friends yet.</p>";
+
+    await loadFriendsPresence();
   } catch (error) {
     showToast(error.message);
   }
@@ -754,7 +800,29 @@ function openFriendsSection() {
 
   friendsSection.hidden = false;
   loadFriends();
+  if (friendsPresenceTimer) clearInterval(friendsPresenceTimer);
+  friendsPresenceTimer = setInterval(loadFriendsPresence, 30000);
   friendsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function loadFriendsPresence() {
+  try {
+    const friends = await apiRequest("/presence/friends");
+
+    friends.forEach(friend => {
+      const element = document.querySelector(
+        `[data-friend-presence="${friend.id}"]`
+      );
+
+      if (!element) return;
+
+      element.textContent = friend.online ? "Online" : "Offline";
+      element.classList.toggle("presence-online", friend.online);
+      element.classList.toggle("presence-offline", !friend.online);
+    });
+  } catch (error) {
+    console.error("Could not load friend presence:", error);
+  }
 }
 
 document.querySelectorAll('[data-page="friends"]').forEach(button => {
@@ -952,6 +1020,7 @@ notificationsList?.addEventListener("click", async event => {
 loadNotificationCount();
 
 const messagesSection = document.querySelector("#messages-section");
+const inboxList = document.querySelector("#inbox-list");
 const messageFriendsList = document.querySelector("#message-friends-list");
 const conversationMessages = document.querySelector("#conversation-messages");
 const conversationTitle = document.querySelector("#conversation-title");
@@ -960,6 +1029,8 @@ const messageInput = document.querySelector("#message-input");
 const sendMessageButton = document.querySelector("#send-message-button");
 
 let activeFriendId = null;
+let activeConversationId = null;
+let messageRefreshTimer = null;
 
 document.querySelector("#open-messages-button")?.addEventListener(
   "click",
@@ -967,10 +1038,94 @@ document.querySelector("#open-messages-button")?.addEventListener(
     if (!messagesSection) return;
 
     messagesSection.hidden = false;
+    await loadInbox();
     await loadMessageFriends();
     messagesSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 );
+
+async function loadInbox() {
+  if (!inboxList) return;
+
+  try {
+    const conversations = await apiRequest("/messages");
+
+    if (!conversations.length) {
+      inboxList.innerHTML = "<p>No conversations yet.</p>";
+      return;
+    }
+
+    inboxList.innerHTML = conversations.map(conversation => {
+      const preview = conversation.last_message
+        ? escapeHTML(conversation.last_message)
+        : "Start a conversation";
+      const unread = Number(conversation.unread_count || 0);
+      const name = conversation.full_name || conversation.username;
+
+      return `
+        <button
+          class="inbox-item"
+          data-inbox-friend-id="${conversation.friend_id}"
+          data-inbox-friend-name="${escapeHTML(name)}"
+          type="button"
+        >
+          <span class="inbox-name">${escapeHTML(name)}</span>
+          <span class="inbox-preview">${preview}</span>
+          ${unread > 0 ? `<span class="unread-badge">${unread}</span>` : ""}
+        </button>
+      `;
+    }).join("");
+  } catch (error) {
+    inboxList.innerHTML = "<p>Could not load messages.</p>";
+    console.error(error);
+  }
+}
+
+function stopMessageRefresh() {
+  if (messageRefreshTimer) {
+    clearInterval(messageRefreshTimer);
+    messageRefreshTimer = null;
+  }
+
+  activeConversationId = null;
+  activeFriendId = null;
+}
+
+async function openConversation(friendId, friendName) {
+  activeConversationId = String(friendId);
+  activeFriendId = Number(friendId);
+  conversationTitle.textContent = friendName;
+  messageInput.disabled = false;
+  sendMessageButton.disabled = false;
+
+  if (messageRefreshTimer) {
+    clearInterval(messageRefreshTimer);
+  }
+
+  await loadConversation(activeConversationId);
+  await loadInbox();
+
+  messageRefreshTimer = setInterval(async () => {
+    if (!activeConversationId) return;
+
+    try {
+      await loadConversation(activeConversationId);
+      await loadInbox();
+    } catch (error) {
+      console.error("Automatic message refresh failed:", error);
+    }
+  }, 5000);
+}
+
+inboxList?.addEventListener("click", async event => {
+  const button = event.target.closest("[data-inbox-friend-id]");
+  if (!button) return;
+
+  await openConversation(
+    button.dataset.inboxFriendId,
+    button.dataset.inboxFriendName
+  );
+});
 
 async function loadMessageFriends() {
   try {
@@ -997,22 +1152,18 @@ messageFriendsList?.addEventListener("click", async event => {
   const button = event.target.closest("[data-friend-id]");
   if (!button) return;
 
-  activeFriendId = Number(button.dataset.friendId);
-  conversationTitle.textContent = button.dataset.friendName;
-  messageInput.disabled = false;
-  sendMessageButton.disabled = false;
-  await loadConversation();
+  await openConversation(button.dataset.friendId, button.dataset.friendName);
 });
 
-async function loadConversation() {
-  if (!activeFriendId) return;
+async function loadConversation(friendId = activeConversationId) {
+  if (!friendId) return;
 
   try {
-    const messages = await apiRequest(`/messages/${activeFriendId}`);
+    const messages = await apiRequest(`/messages/${friendId}`);
 
     conversationMessages.innerHTML = messages.length
       ? messages.map(message => `
-          <article class="message ${message.sender_id === activeFriendId ? "received" : "sent"}">
+          <article class="message ${message.sender_id === Number(friendId) ? "received" : "sent"}">
             <p>${escapeHTML(message.content)}</p>
             <small>${escapeHTML(formatDate(message.created_at))}</small>
           </article>
@@ -1040,7 +1191,8 @@ messageForm?.addEventListener("submit", async event => {
     });
 
     messageInput.value = "";
-    await loadConversation();
+    await loadConversation(activeConversationId);
+    await loadInbox();
   } catch (error) {
     showToast(error.message);
   } finally {

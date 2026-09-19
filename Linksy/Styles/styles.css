@@ -802,6 +802,26 @@ hr {
   cursor: pointer;
 }
 
+.presence-online {
+  color: #16803c;
+  font-weight: 700;
+}
+
+.presence-offline {
+  color: #777;
+  font-weight: 400;
+}
+
+.presence-online::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
 @media (max-width: 600px) {
   .friends-columns {
     grid-template-columns: 1fr;
@@ -961,11 +981,59 @@ hr {
 
 .messaging-layout {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: 240px 220px minmax(0, 1fr);
   min-height: 450px;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.inbox-panel {
+  min-width: 0;
+  padding: 16px;
+  border-right: 1px solid #ddd;
+}
+
+.inbox-item {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 8px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.inbox-item:hover {
+  background: #f0f2f5;
+}
+
+.inbox-name {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.inbox-preview {
+  display: block;
+  color: #65676b;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unread-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 8px;
+  color: white;
+  background: #1877f2;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .conversation-sidebar {
@@ -1057,6 +1125,7 @@ hr {
     grid-template-columns: 1fr;
   }
 
+  .inbox-panel,
   .conversation-sidebar {
     border-right: none;
     border-bottom: 1px solid #e5e7eb;

@@ -8,6 +8,7 @@ import hmac
 import uuid
 
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, Request, Response, UploadFile
@@ -52,6 +53,10 @@ def initialize_database():
         if not any(column["name"] == "bio" for column in user_columns):
             connection.execute(
                 "ALTER TABLE users ADD COLUMN bio TEXT NOT NULL DEFAULT ''"
+            )
+        if not any(column["name"] == "last_seen" for column in user_columns):
+            connection.execute(
+                "ALTER TABLE users ADD COLUMN last_seen TEXT"
             )
 
         connection.execute("""
@@ -593,6 +598,63 @@ def get_friends(current_user=Depends(get_current_user)):
     return [dict(row) for row in friends]
 
 
+@app.post("/api/presence/heartbeat")
+def presence_heartbeat(current_user=Depends(get_current_user)):
+    now = datetime.now(timezone.utc).isoformat()
+
+    with get_connection() as connection:
+        connection.execute(
+            "UPDATE users SET last_seen = ? WHERE id = ?",
+            (now, current_user["id"]),
+        )
+
+    return {"status": "ok", "last_seen": now}
+
+
+@app.get("/api/presence/friends")
+def get_friends_presence(current_user=Depends(get_current_user)):
+    user_id = current_user["id"]
+
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT DISTINCT u.id, u.name, u.email, u.last_seen
+            FROM friend_requests fr
+            JOIN users u ON u.id = CASE
+                WHEN fr.sender_id = ? THEN fr.receiver_id
+                ELSE fr.sender_id
+            END
+            WHERE fr.status = 'accepted'
+              AND (fr.sender_id = ? OR fr.receiver_id = ?)
+            """,
+            (user_id, user_id, user_id),
+        ).fetchall()
+
+    now = datetime.now(timezone.utc)
+    result = []
+
+    for row in rows:
+        last_seen = row["last_seen"]
+        online = False
+
+        if last_seen:
+            try:
+                last_seen_dt = datetime.fromisoformat(last_seen)
+                online = (now - last_seen_dt).total_seconds() <= 90
+            except ValueError:
+                pass
+
+        result.append({
+            "id": row["id"],
+            "name": row["name"],
+            "email": row["email"],
+            "online": online,
+            "last_seen": last_seen,
+        })
+
+    return result
+
+
 def are_friends(connection, user_a, user_b):
     result = connection.execute(
         """
@@ -696,6 +758,75 @@ def send_message(
         )
 
     return {"message": "Message sent."}
+
+
+@app.get("/api/messages")
+def get_message_inbox(current_user=Depends(get_current_user)):
+    user_id = current_user["id"]
+
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                CASE
+                    WHEN fr.sender_id = ? THEN fr.receiver_id
+                    ELSE fr.sender_id
+                END AS friend_id,
+                u.name AS full_name,
+                u.email AS username,
+                latest.content AS last_message,
+                latest.created_at AS last_message_at,
+                latest.sender_id AS last_sender_id,
+                (
+                    SELECT COUNT(*)
+                    FROM messages unread
+                    WHERE unread.sender_id = CASE
+                        WHEN fr.sender_id = ? THEN fr.receiver_id
+                        ELSE fr.sender_id
+                    END
+                      AND unread.receiver_id = ?
+                      AND unread.is_read = 0
+                ) AS unread_count
+            FROM friend_requests fr
+            JOIN users u ON u.id = CASE
+                WHEN fr.sender_id = ? THEN fr.receiver_id
+                ELSE fr.sender_id
+            END
+            LEFT JOIN messages latest ON latest.id = (
+                SELECT m2.id
+                FROM messages m2
+                WHERE
+                    (m2.sender_id = ? AND m2.receiver_id = CASE
+                        WHEN fr.sender_id = ? THEN fr.receiver_id
+                        ELSE fr.sender_id
+                    END)
+                    OR
+                    (m2.sender_id = CASE
+                        WHEN fr.sender_id = ? THEN fr.receiver_id
+                        ELSE fr.sender_id
+                    END AND m2.receiver_id = ?)
+                ORDER BY m2.created_at DESC, m2.id DESC
+                LIMIT 1
+            )
+            WHERE fr.status = 'accepted'
+              AND (fr.sender_id = ? OR fr.receiver_id = ?)
+            ORDER BY latest.created_at DESC, latest.id DESC, u.name
+            """,
+            (
+                user_id,
+                user_id,
+                user_id,
+                user_id,
+                user_id,
+                user_id,
+                user_id,
+                user_id,
+                user_id,
+                user_id,
+            ),
+        ).fetchall()
+
+    return [dict(row) for row in rows]
 
 
 @app.get("/api/users/search")
