@@ -6,6 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   root: 'src/',
+  base: process.env.GITHUB_ACTIONS ? '/wdd330-sleepoutside-team11/' : '/',
 
   build: {
     outDir: '../dist',
