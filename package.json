@@ -6,9 +6,9 @@
   "scripts": {
     "start": "vite",
     "build": "vite build --emptyOutDir",
-    "lint": "eslint *.js src/**/*.js",
-    "format": "prettier --ignore-path ./.gitignore --write \"./**/*.{html,json,js,ts,css}\"",
-    "test": "jest"
+    "lint": "eslint \"src/**/*.{js,mjs}\"",
+    "format": "prettier --ignore-path ./.gitignore --write \"./**/*.{html,json,js,mjs,ts,css}\"",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand"
   },
   "author": "Shane Thompson",
   "license": "ISC",
@@ -31,5 +31,10 @@
     "last 3 opera versions",
     "last 3 ios_saf versions",
     "last 3 safari versions"
-  ]
+  ],
+  "jest": {
+    "testMatch": [
+      "<rootDir>/src/test/**/*.test.mjs"
+    ]
+  }
 }
