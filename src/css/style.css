@@ -241,6 +241,28 @@ button {
   grid-column: 3;
 }
 
+.empty-cart {
+  width: 100%;
+  list-style: none;
+  padding: 2rem 1rem;
+  text-align: center;
+  border: 1px solid var(--light-grey);
+}
+
+.continue-shopping {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.6em 1.2em;
+  background-color: var(--secondary-color);
+  color: white;
+  text-decoration: none;
+}
+
+.continue-shopping:hover,
+.continue-shopping:focus-visible {
+  background-color: var(--tertiary-color);
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
