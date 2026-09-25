@@ -9,21 +9,22 @@
     <title>Sleep Outside | Checkout</title>
 
     <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/checkout.js" type="module"></script>
+    
   </head>
 
   <body>
     <header class="divider">
       <div class="logo">
-        <img src="images/noun_Tent_2517.svg" alt="tent image for logo" />
-
-        <a href="index.html">
+        <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
+            <a href="/index.html">
           Sleep
           <span class="highlight">Outside</span>
         </a>
       </div>
 
       <div class="cart">
-        <a href="cart/">
+        <a href="/cart/">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <path
               d="M18.9 32.6c1.1 2.4 2.5 3.3 5.4 3.3 1.6 0 3.6-0.3 5.9-0.6 3.2-0.5 6.9-1 11.2-1 2.1 0 4.3 0.1 6.4 0.3 2.1 0.1 4.2 0.3 6.1 0.3 3.2 0 5.2-0.4 5.9-1.2 2.7-2.7 2.8-8.8 2.9-14.6 0.1-6.7 0.2-14.5 4.6-18.7 -0.5 0-1 0-1.6 0 -14.2 0-37.5 0-41.1 0C15.6 6.2 14.9 23.6 18.9 32.6z"
@@ -59,6 +60,39 @@
     <main class="divider">
       <section class="products">
         <h2>Review & Place your Order</h2>
+
+        <form id="checkout-form">
+  <fieldset>
+    <legend>Customer Information</legend>
+    <label>First Name <input name="fname" autocomplete="given-name" required /></label>
+    <label>Last Name <input name="lname" autocomplete="family-name" required /></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Address</legend>
+    <label>Street Address <input name="street" autocomplete="street-address" required /></label>
+    <label>City <input name="city" autocomplete="address-level2" required /></label>
+    <label>State <input name="state" autocomplete="address-level1" required /></label>
+    <label>Zip Code <input name="zip" autocomplete="postal-code" required /></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Payment</legend>
+    <label>Card Number <input name="cardNumber" inputmode="numeric" required /></label>
+    <label>Expiration Date <input name="expiration" placeholder="MM/YY" required /></label>
+    <label>Security Code <input name="code" inputmode="numeric" required /></label>
+  </fieldset>
+
+  <section class="order-summary" aria-label="Order summary">
+    <h3>Order Summary</h3>
+    <p>Subtotal: <span id="subtotal">$0.00</span></p>
+    <p>Tax: <span id="tax">$0.00</span></p>
+    <p>Shipping: <span id="shipping">$0.00</span></p>
+    <p>Total: <strong id="order-total">$0.00</strong></p>
+  </section>
+
+  <button type="submit">Place Order</button>
+</form>
       </section>
     </main>
 
