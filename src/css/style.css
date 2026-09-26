@@ -328,3 +328,30 @@ footer {
   font-size: 1.5rem;
   cursor: pointer;
 }
+
+.cart-card {
+  position: relative;
+  padding-right: 2.5rem;
+}
+
+.cart-card .remove-from-cart {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.product-list .cart-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cart-card > a:nth-of-type(2) {
+  grid-row: 1;
+  grid-column: 2;
+}

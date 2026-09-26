@@ -1,10 +1,10 @@
-import { getLocalStorage } from './utils.mjs';
+import { getLocalStorage, setLocalStorage } from './utils.mjs';
 
 const fallbackImage = new URL('../images/noun_Tent_2517.svg', import.meta.url).href;
+const cartList = document.querySelector('.product-list');
 
 function renderCartContents() {
-  const cartItems = getLocalStorage('so-cart');
-  const cartList = document.querySelector('.product-list');
+  const cartItems = getLocalStorage('so-cart') || [];
   const subtotalElement = document.querySelector('.cart-subtotal');
   const checkoutButton = document.querySelector('.checkout-button');
 
@@ -15,13 +15,19 @@ function renderCartContents() {
     return;
   }
 
-  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
-  cartList.innerHTML = htmlItems.join('');
+  checkoutButton.hidden = false;
+  cartList.innerHTML = cartItems
+    .map((item, index) => cartItemTemplate(item, index))
+    .join('');
 
   cartList.querySelectorAll('img').forEach((image) => {
-    image.addEventListener('error', () => {
-      image.src = fallbackImage;
-    }, { once: true });
+    image.addEventListener(
+      'error',
+      () => {
+        image.src = fallbackImage;
+      },
+      { once: true },
+    );
   });
 
   const subtotal = cartItems.reduce(
@@ -38,8 +44,14 @@ function emptyCartTemplate() {
   </li>`;
 }
 
-function cartItemTemplate(item) {
+function cartItemTemplate(item, index) {
   return `<li class="cart-card divider">
+    <button
+      type="button"
+      class="remove-from-cart"
+      data-index="${index}"
+      aria-label="Remove product from cart"
+    >X</button>
     <a href="#" class="cart-card__image">
       <img src="${item.Image}" alt="${item.Name}" />
     </a>
@@ -51,5 +63,17 @@ function cartItemTemplate(item) {
     <p class="cart-card__price">$${item.FinalPrice}</p>
   </li>`;
 }
+
+cartList.addEventListener('click', (event) => {
+  const removeButton = event.target.closest('.remove-from-cart');
+  if (!removeButton) return;
+
+  const cartItems = getLocalStorage('so-cart') || [];
+  const index = Number(removeButton.dataset.index);
+
+  cartItems.splice(index, 1);
+  setLocalStorage('so-cart', cartItems);
+  renderCartContents();
+});
 
 renderCartContents();
