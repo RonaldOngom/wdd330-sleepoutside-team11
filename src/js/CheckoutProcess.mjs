@@ -1,4 +1,14 @@
 import { getLocalStorage } from './utils.mjs';
+import ExternalServices from './ExternalServices.mjs';
+
+function packageItems(items) {
+  return items.map((item) => ({
+    id: item.Id,
+    name: item.Name,
+    price: Number(item.FinalPrice),
+    quantity: 1,
+  }));
+}
 
 export default class CheckoutProcess {
   constructor(key) {
@@ -8,10 +18,11 @@ export default class CheckoutProcess {
     this.tax = 0;
     this.shipping = 0;
     this.orderTotal = 0;
+    this.services = new ExternalServices();
   }
 
   init() {
-    this.items = getLocalStorage(this.key);
+    this.items = getLocalStorage(this.key) || [];
     this.itemTotal = this.items.reduce(
       (sum, item) => sum + Number(item.FinalPrice),
       0,
@@ -33,5 +44,18 @@ export default class CheckoutProcess {
       `$${this.shipping.toFixed(2)}`;
     document.querySelector('#order-total').textContent =
       `$${this.orderTotal.toFixed(2)}`;
+  }
+
+  async checkout(form) {
+    this.calculateOrderTotal();
+
+    const order = Object.fromEntries(new FormData(form));
+    order.orderDate = new Date().toISOString();
+    order.items = packageItems(this.items);
+    order.orderTotal = this.orderTotal.toFixed(2);
+    order.shipping = this.shipping;
+    order.tax = this.tax.toFixed(2);
+
+    return this.services.checkout(order);
   }
 }
