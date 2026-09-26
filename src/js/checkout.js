@@ -10,10 +10,10 @@ document.querySelector('input[name="zip"]').addEventListener('change', () => {
 document.querySelector('#checkout-form').addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  try {
-    const response = await checkout.checkout(event.currentTarget);
-    console.log('Order response:', response);
-  } catch (error) {
-    console.error('Checkout failed:', error);
+  const response = await checkout.checkout(event.currentTarget);
+
+  if (response) {
+    localStorage.removeItem('so-cart');
+    window.location.href = new URL('./success.html', window.location.href);
   }
 });

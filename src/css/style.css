@@ -307,3 +307,24 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #a12323;
+  border-radius: 0.25rem;
+  background: #fff1f1;
+  color: #742020;
+}
+
+.alert button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
