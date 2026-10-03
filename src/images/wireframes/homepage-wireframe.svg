@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#f5f5f5"/>
+  <rect x="50" y="30" width="1100" height="90" rx="8" fill="#d9d9d9"/>
+  <rect x="90" y="52" width="180" height="45" rx="6" fill="#ffffff"/>
+  <text x="120" y="81" font-family="Arial, sans-serif" font-size="28" fill="#333">Sleep Outside</text>
+  <rect x="760" y="52" width="140" height="42" rx="6" fill="#ffffff"/>
+  <rect x="920" y="52" width="140" height="42" rx="6" fill="#ffffff"/>
+  <text x="815" y="80" font-family="Arial, sans-serif" font-size="22" fill="#333">Shop</text>
+  <text x="970" y="80" font-family="Arial, sans-serif" font-size="22" fill="#333">Cart</text>
+
+  <rect x="50" y="150" width="1100" height="180" rx="10" fill="#e8e8e8"/>
+  <text x="110" y="220" font-family="Arial, sans-serif" font-size="34" fill="#333">Featured Gear</text>
+  <text x="110" y="270" font-family="Arial, sans-serif" font-size="18" fill="#555">Outdoor essentials built for comfort, durability, and adventure.</text>
+  <rect x="930" y="190" width="170" height="60" rx="8" fill="#bfbfbf"/>
+  <text x="975" y="228" font-family="Arial, sans-serif" font-size="20" fill="#333">Shop Now</text>
+
+  <rect x="50" y="370" width="260" height="330" rx="10" fill="#fafafa" stroke="#aaa"/>
+  <rect x="75" y="395" width="210" height="120" rx="6" fill="#d9d9d9"/>
+  <text x="100" y="555" font-family="Arial, sans-serif" font-size="28" fill="#333">Filter</text>
+  <rect x="90" y="575" width="180" height="18" rx="4" fill="#cecece"/>
+  <rect x="90" y="610" width="180" height="18" rx="4" fill="#cecece"/>
+  <rect x="90" y="645" width="180" height="18" rx="4" fill="#cecece"/>
+
+  <rect x="340" y="370" width="180" height="220" rx="10" fill="#fafafa" stroke="#aaa"/>
+  <rect x="355" y="385" width="150" height="100" rx="8" fill="#d9d9d9"/>
+  <text x="365" y="530" font-family="Arial, sans-serif" font-size="20" fill="#333">Product Card</text>
+  <rect x="365" y="550" width="120" height="18" rx="4" fill="#d0d0d0"/>
+
+  <rect x="540" y="370" width="180" height="220" rx="10" fill="#fafafa" stroke="#aaa"/>
+  <rect x="555" y="385" width="150" height="100" rx="8" fill="#d9d9d9"/>
+  <text x="565" y="530" font-family="Arial, sans-serif" font-size="20" fill="#333">Product Card</text>
+  <rect x="565" y="550" width="120" height="18" rx="4" fill="#d0d0d0"/>
+
+  <rect x="740" y="370" width="180" height="220" rx="10" fill="#fafafa" stroke="#aaa"/>
+  <rect x="755" y="385" width="150" height="100" rx="8" fill="#d9d9d9"/>
+  <text x="765" y="530" font-family="Arial, sans-serif" font-size="20" fill="#333">Product Card</text>
+  <rect x="765" y="550" width="120" height="18" rx="4" fill="#d0d0d0"/>
+
+  <rect x="940" y="370" width="180" height="220" rx="10" fill="#fafafa" stroke="#aaa"/>
+  <rect x="955" y="385" width="150" height="100" rx="8" fill="#d9d9d9"/>
+  <text x="965" y="530" font-family="Arial, sans-serif" font-size="20" fill="#333">Product Card</text>
+  <rect x="965" y="550" width="120" height="18" rx="4" fill="#d0d0d0"/>
+</svg>
