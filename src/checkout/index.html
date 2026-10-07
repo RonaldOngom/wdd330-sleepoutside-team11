@@ -9,21 +9,22 @@
     <title>Sleep Outside | Checkout</title>
 
     <link rel="stylesheet" href="../css/style.css" />
+    <script src="../js/checkout.js" type="module"></script>
   </head>
 
   <body>
     <header class="divider">
       <div class="logo">
-        <img src="images/noun_Tent_2517.svg" alt="tent image for logo" />
+        <img src="../images/noun_Tent_2517.svg" alt="tent image for logo" />
 
-        <a href="index.html">
+        <a href="../index.html">
           Sleep
           <span class="highlight">Outside</span>
         </a>
       </div>
 
       <div class="cart">
-        <a href="cart/">
+        <a href="../cart/">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <path
               d="M18.9 32.6c1.1 2.4 2.5 3.3 5.4 3.3 1.6 0 3.6-0.3 5.9-0.6 3.2-0.5 6.9-1 11.2-1 2.1 0 4.3 0.1 6.4 0.3 2.1 0.1 4.2 0.3 6.1 0.3 3.2 0 5.2-0.4 5.9-1.2 2.7-2.7 2.8-8.8 2.9-14.6 0.1-6.7 0.2-14.5 4.6-18.7 -0.5 0-1 0-1.6 0 -14.2 0-37.5 0-41.1 0C15.6 6.2 14.9 23.6 18.9 32.6z"
@@ -57,11 +58,72 @@
     </header>
 
     <main class="divider">
-      <section class="products">
-        <h2>Review & Place your Order</h2>
+      <section class="checkout" aria-labelledby="checkout-heading">
+        <h1 id="checkout-heading">Checkout</h1>
+        <div class="checkout-layout">
+          <div class="checkout-main">
+            <form id="checkout-form" class="checkout-form">
+              <h2>Contact and delivery</h2>
+              <label>
+                Full name
+                <input name="name" autocomplete="name" required />
+              </label>
+              <label>
+                Email address
+                <input
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                />
+              </label>
+              <label>
+                Street address
+                <input name="address" autocomplete="street-address" required />
+              </label>
+              <div class="checkout-form__row">
+                <label>
+                  City
+                  <input name="city" autocomplete="address-level2" required />
+                </label>
+                <label>
+                  State
+                  <input
+                    name="state"
+                    autocomplete="address-level1"
+                    maxlength="2"
+                    required
+                  />
+                </label>
+                <label>
+                  ZIP code
+                  <input
+                    name="postalCode"
+                    autocomplete="postal-code"
+                    inputmode="numeric"
+                    pattern="[0-9]{5}(-[0-9]{4})?"
+                    required
+                  />
+                </label>
+              </div>
+              <button class="checkout-submit" type="submit">
+                Complete demo checkout
+              </button>
+            </form>
+            <p class="checkout-status" role="status" aria-live="polite"></p>
+          </div>
+          <aside class="checkout-summary" aria-labelledby="summary-heading">
+            <h2 id="summary-heading">Order summary</h2>
+            <ul class="checkout-items"></ul>
+            <p class="checkout-total">
+              Subtotal <strong class="checkout-subtotal">$0.00</strong>
+            </p>
+            <a class="continue-shopping" href="../cart/">Return to cart</a>
+          </aside>
+        </div>
       </section>
     </main>
 
-    <footer>&copy;NOT a real business</footer>
+    <footer>Demo store — no orders or payments are processed.</footer>
   </body>
 </html>

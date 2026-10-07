@@ -8,7 +8,7 @@
 
     <title>Sleep Outside | Cart</title>
 
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
 
     <script src="../js/cart.js" type="module"></script>
   </head>
@@ -16,8 +16,8 @@
   <body>
     <header class="divider">
       <div class="logo">
-        <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
-        <a href="/index.html"> Sleep<span class="highlight">Outside</span></a>
+        <img src="../images/noun_Tent_2517.svg" alt="tent image for logo" />
+        <a href="../index.html"> Sleep<span class="highlight">Outside</span></a>
       </div>
 
       <div class="cart">
@@ -55,8 +55,8 @@
     </header>
 
     <main class="divider">
-      <section class="products">
-        <h2>My Cart</h2>
+      <section class="products" aria-labelledby="cart-heading">
+        <h1 id="cart-heading">Your cart</h1>
 
         <ul class="product-list">
           <!-- <li class="cart-card divider">
@@ -90,6 +90,13 @@
             <p class="cart-card__price">$199.99</p>
           </li> -->
         </ul>
+        <section class="cart-summary" aria-label="Order summary" hidden>
+          <p>Subtotal <strong class="cart-subtotal">$0.00</strong></p>
+          <p class="cart-summary__note">
+            Shipping and taxes are calculated at checkout.
+          </p>
+          <a class="checkout-link" href="../checkout/">Continue to checkout</a>
+        </section>
       </section>
     </main>
 
