@@ -1,8 +1,7 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { getCartItems, setLocalStorage } from './utils.mjs';
 
 function renderCartContents() {
-  const storedCart = getLocalStorage('so-cart');
-  const cartItems = Array.isArray(storedCart) ? storedCart : [];
+  const cartItems = getCartItems();
   const cartList = document.querySelector('.product-list');
   const cartSummary = document.querySelector('.cart-summary');
 
@@ -27,14 +26,23 @@ function emptyCartTemplate() {
   const listItem = document.createElement('li');
   listItem.className = 'empty-cart';
 
+  const icon = document.createElement('span');
+  icon.className = 'empty-cart__icon';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = '⛺';
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'Your cart is ready for an adventure';
+
   const message = document.createElement('p');
-  message.textContent = 'Your cart is empty.';
+  message.textContent =
+    'You have not added any gear yet. Find what you need for your next trip.';
   const link = document.createElement('a');
   link.className = 'continue-shopping';
   link.href = '../index.html';
-  link.textContent = 'Continue shopping';
+  link.textContent = 'Explore outdoor gear';
 
-  listItem.append(message, link);
+  listItem.append(icon, heading, message, link);
   return listItem;
 }
 
@@ -107,9 +115,9 @@ function formatPrice(amount) {
 document.querySelector('.product-list').addEventListener('change', (event) => {
   if (event.target.matches('.cart-card__quantity input')) {
     const index = Number(event.target.dataset.index);
-    const cartItems = getLocalStorage('so-cart');
+    const cartItems = getCartItems();
 
-    if (!Array.isArray(cartItems) || !cartItems[index]) return;
+    if (!cartItems[index]) return;
 
     const quantity = Number(event.target.value);
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
@@ -118,7 +126,7 @@ document.querySelector('.product-list').addEventListener('change', (event) => {
     }
 
     cartItems[index].quantity = quantity;
-    setLocalStorage('so-cart', cartItems);
+    if (!setLocalStorage('so-cart', cartItems)) return;
     renderCartContents();
   }
 });
@@ -127,12 +135,23 @@ document.querySelector('.product-list').addEventListener('click', (event) => {
   const button = event.target.closest('.cart-card__remove');
   if (!button) return;
 
-  const cartItems = getLocalStorage('so-cart');
-  if (!Array.isArray(cartItems)) return;
+  const cartItems = getCartItems();
 
   cartItems.splice(Number(button.dataset.index), 1);
-  setLocalStorage('so-cart', cartItems);
+  if (!setLocalStorage('so-cart', cartItems)) return;
   renderCartContents();
+});
+
+window.addEventListener('app:storage-error', (event) => {
+  const status = document.querySelector('.cart-status');
+  if (!status || event.detail.key !== 'so-cart') return;
+
+  status.textContent =
+    event.detail.operation === 'read'
+      ? 'Saved cart data could not be read. Your cart is shown as empty.'
+      : event.detail.operation === 'invalid'
+        ? 'Some saved cart data was invalid and has been left out of your cart.'
+        : 'Your cart changes could not be saved. Check your browser storage settings and try again.';
 });
 
 renderCartContents();

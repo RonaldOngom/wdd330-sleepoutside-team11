@@ -280,9 +280,45 @@ button:disabled {
 .empty-cart {
   width: 100%;
   list-style: none;
-  padding: 2rem 1rem;
+  margin-top: 1rem;
+  padding: clamp(2rem, 7vw, 4rem) 1rem;
   text-align: center;
   border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  background: #f8f8f5;
+}
+
+.empty-cart__icon {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: #e9ebdf;
+  font-size: 2rem;
+}
+
+.empty-cart h2 {
+  margin-bottom: 0.25rem;
+  font-size: 1.35rem;
+}
+
+.empty-cart p {
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.cart-status:empty {
+  display: none;
+}
+
+.cart-status:not(:empty) {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--tertiary-color);
+  background: #fff4e8;
+  color: var(--dark-grey);
 }
 
 .continue-shopping {
