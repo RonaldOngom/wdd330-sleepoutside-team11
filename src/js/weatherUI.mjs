@@ -53,9 +53,7 @@ function formatTemperature(value, unit = state.unit) {
     return '—';
   }
 
-  const numeric = Number(value);
-  const converted = unit === 'f' ? (numeric * 9) / 5 + 32 : numeric;
-  return `${Math.round(converted)}°${unit.toUpperCase()}`;
+  return `${Math.round(Number(value))}°${unit.toUpperCase()}`;
 }
 
 function formatDay(dateString) {
