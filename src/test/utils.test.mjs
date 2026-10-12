@@ -31,6 +31,10 @@ describe('local storage helpers', () => {
     expect(getLocalStorage('so-cart')).toEqual([]);
   });
 
+  test('returns a provided default when no value has been saved', () => {
+    expect(getLocalStorage('theme', 'dark')).toBe('dark');
+  });
+
   test('saves and retrieves cart data', () => {
     const cart = [{ Id: '880RR', Name: 'Marmot Ajax Tent' }];
 

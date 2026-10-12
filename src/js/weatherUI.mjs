@@ -196,15 +196,22 @@ async function selectLocation(location) {
 }
 
 export function initWeatherPanel() {
+  const panel = document.getElementById('weather-panel');
   const searchInput = document.getElementById('weather-search');
   const searchButton = document.getElementById('weather-search-btn');
   const unitToggle = document.getElementById('unit-toggle');
   const refreshButton = document.getElementById('weather-refresh');
   const locationName = document.getElementById('weather-location-name');
 
-  if (!searchInput || !searchButton || !unitToggle || !refreshButton || !locationName) {
+  if (!panel || !searchInput || !searchButton || !unitToggle || !refreshButton || !locationName) {
     return;
   }
+
+  if (panel.dataset.initialized === 'true') {
+    return;
+  }
+
+  panel.dataset.initialized = 'true';
 
   const savedUnit = getLocalStorage(STORAGE_KEYS.unit, 'c');
   state.unit = savedUnit === 'f' ? 'f' : 'c';
