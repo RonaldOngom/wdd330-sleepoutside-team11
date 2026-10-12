@@ -21,16 +21,16 @@
 }
 
 body[data-theme='dark'] {
-  --page-bg: #171d1b;
-  --card-bg: #1f2a28;
-  --panel-bg: rgba(31, 42, 40, 0.9);
-  --text-color: #edf7f3;
-  --muted-text: #c9d7d2;
-  --secondary-color: #9fb14d;
-  --light-grey: #40514d;
-  --dark-grey: #edf7f3;
-  --tertiary-color: #ffbf76;
-  --shadow-soft: 0 18px 32px rgb(0 0 0 / 0.3);
+  --page-bg: #0f1720;
+  --card-bg: #17212a;
+  --panel-bg: rgba(18, 28, 35, 0.86);
+  --text-color: #edf3f8;
+  --muted-text: #bed0da;
+  --secondary-color: #b6d26a;
+  --light-grey: #425668;
+  --dark-grey: #e7eef5;
+  --tertiary-color: #ffba6b;
+  --shadow-soft: 0 18px 32px rgb(0 0 0 / 0.42);
 }
 
 * {
@@ -48,7 +48,51 @@ body {
 }
 
 body[data-theme='dark'] {
-  background: linear-gradient(180deg, var(--page-bg) 0%, #0d1514 100%);
+  background: linear-gradient(180deg, #0a1117 0%, #111d27 100%);
+}
+
+body[data-theme='dark'] .logo a,
+body[data-theme='dark'] .card__name,
+body[data-theme='dark'] .product-list a,
+body[data-theme='dark'] .product-card,
+body[data-theme='dark'] .mission,
+body[data-theme='dark'] .top-tools,
+body[data-theme='dark'] .trip-planner,
+body[data-theme='dark'] .weather-card,
+body[data-theme='dark'] #weather-panel,
+body[data-theme='dark'] .cart-card,
+body[data-theme='dark'] .empty-cart {
+  color: var(--text-color);
+}
+
+body[data-theme='dark'] .product-card,
+body[data-theme='dark'] .weather-card,
+body[data-theme='dark'] #weather-panel,
+body[data-theme='dark'] .top-tools,
+body[data-theme='dark'] .trip-planner,
+body[data-theme='dark'] .cart-card,
+body[data-theme='dark'] .empty-cart {
+  background: var(--panel-bg);
+  border-color: rgba(190, 208, 218, 0.15);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+}
+
+body[data-theme='dark'] .logo--square,
+body[data-theme='dark'] .mission,
+body[data-theme='dark'] .weather-result,
+body[data-theme='dark'] .weather-card--featured {
+  background: rgba(23, 33, 42, 0.9);
+}
+
+body[data-theme='dark'] .weather-result {
+  border-color: rgba(190, 208, 218, 0.2);
+  color: var(--text-color);
+}
+
+body[data-theme='dark'] .product-card:hover,
+body[data-theme='dark'] .product-card.is-hovered {
+  box-shadow: 0 22px 36px rgba(0, 0, 0, 0.32);
+  border-color: var(--secondary-color);
 }
 
 img {
