@@ -65,8 +65,7 @@ still be used while that service is unavailable.
 
 Use Fieldnotes as one of the projects documented in the W07 Skills Development
 document. When completing the submission, include your own name, public app
-URL, source repository URL, Trello board URL, and public video URL. Those
-personal and deployment links are intentionally not invented in this
-repository. In the video, demonstrate a place search, forecast, saved-place
-interaction, unit/theme settings, and the corresponding implementation in
-`src/fieldnotes/`.
+URL, source repository URL, and public video URL. The Fieldnotes Trello board
+is [here](https://trello.com/b/v8NAFHeJ/fieldnotes-outdoor-trip-planner). In
+the video, demonstrate a place search, forecast, saved-place interaction,
+unit/theme settings, and the corresponding implementation in `src/fieldnotes/`.
