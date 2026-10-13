@@ -1,4 +1,4 @@
-name: Deploy SleepOutside to GitHub Pages
+name: Deploy SleepOutside and Fieldnotes to GitHub Pages
 
 on:
   push:
@@ -30,13 +30,23 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Build the Vite application
+      - name: Check code quality
         run: |
           npm ci
-          npm run build
+          npm run lint
+          npm test -- --passWithNoTests
+
+      - name: Build the Vite application
+        run: npm run build
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
+      - name: Validate Pages output
+        run: |
+          test -s dist/index.html
+          test -s dist/fieldnotes/index.html
+          grep -Eq '(src|href)="/wdd330-sleepoutside-team11/assets/' dist/fieldnotes/index.html
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
