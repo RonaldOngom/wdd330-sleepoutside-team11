@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Fieldnotes helps you find a place, check the forecast, and plan a better day outside."
+    />
+    <meta name="theme-color" content="#f5f6f2" />
+    <title>Fieldnotes — Plan a better day outside</title>
+    <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="preconnect" href="https://air-quality-api.open-meteo.com" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Fieldnotes home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M7 30.5 20 8l13 22.5H7Z" />
+            <path d="m15.3 30.5 4.7-8 4.7 8M20 8v8.5" />
+          </svg>
+        </span>
+        <span>fieldnotes<span class="brand-period">.</span></span>
+      </a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link nav-link--active" href="#forecast">Forecast</a>
+        <a class="nav-link" href="#conditions">Conditions</a>
+        <a class="nav-link" href="#saved-places">Saved places</a>
+      </nav>
+
+      <div class="header-actions">
+        <button
+          class="icon-button"
+          id="unit-toggle"
+          type="button"
+          aria-label="Switch temperature units"
+        >
+          <span id="unit-label">°C</span>
+        </button>
+        <button
+          class="icon-button theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.2 15.1A8.3 8.3 0 0 1 8.9 3.8 8.4 8.4 0 1 0 20.2 15Z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="intro-section" aria-labelledby="intro-title">
+        <div class="intro-copy">
+          <p class="eyebrow">
+            <span class="eyebrow-dot"></span> YOUR OUTSIDE, IN FOCUS
+          </p>
+          <h1 id="intro-title">A little more<br />time <em>out there.</em></h1>
+          <p class="intro-description">
+            Find a place, get the conditions, and make the most of your next day
+            outside.
+          </p>
+        </div>
+
+        <div class="search-card">
+          <form id="search-form" class="search-form" role="search">
+            <label for="location-search">Where are you headed?</label>
+            <div class="search-row">
+              <div class="search-input-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M20 10.2c0 5.2-8 11-8 11s-8-5.8-8-11a8 8 0 1 1 16 0Z"
+                  />
+                  <circle cx="12" cy="10" r="2.5" />
+                </svg>
+                <input
+                  id="location-search"
+                  name="location"
+                  type="search"
+                  placeholder="Try Moab, Utah"
+                  autocomplete="off"
+                  aria-describedby="search-help"
+                  aria-controls="search-results"
+                  aria-expanded="false"
+                  required
+                />
+              </div>
+              <button class="search-button" type="submit">
+                <span>Explore</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
+              </button>
+            </div>
+            <p id="search-help" class="search-help">
+              Live forecasts for places around the world.
+            </p>
+            <div
+              id="search-results"
+              class="search-results"
+              role="listbox"
+              aria-label="Matching places"
+              hidden
+            ></div>
+            <p
+              id="app-status"
+              class="status-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </div>
+      </section>
+
+      <section
+        id="forecast"
+        class="forecast-section"
+        aria-labelledby="forecast-heading"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">THE WEEK AHEAD</p>
+            <h2 id="forecast-heading">Your forecast</h2>
+          </div>
+          <button class="text-button" id="refresh-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 7v5h-5M4 17v-5h5" />
+              <path
+                d="M5.6 9a7 7 0 0 1 11.8-2L20 12M4 12l2.6 5a7 7 0 0 0 11.8-2"
+              />
+            </svg>
+            Refresh
+          </button>
+        </div>
+
+        <div id="forecast-content" class="forecast-content" aria-live="polite">
+          <div class="loading-state">
+            <span class="loading-orb" aria-hidden="true"></span>
+            <p>Finding the forecast for Moab…</p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="conditions"
+        class="conditions-section"
+        aria-labelledby="conditions-heading"
+      >
+        <div class="conditions-intro">
+          <p class="eyebrow">BEYOND THE TEMPERATURE</p>
+          <h2 id="conditions-heading">Know before<br />you go.</h2>
+          <p>
+            Small details make a better day out. Check the essentials before you
+            head for the trail.
+          </p>
+          <a
+            class="inline-link"
+            href="https://open-meteo.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            About our forecast data
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M8 7h9v9" />
+            </svg>
+          </a>
+        </div>
+        <div id="conditions-content" class="conditions-grid">
+          <article class="condition-card condition-card--loading">
+            <span class="condition-icon" aria-hidden="true">◷</span>
+            <p class="condition-label">Sunrise</p>
+            <p class="condition-value">—</p>
+            <p class="condition-note">Local time</p>
+          </article>
+          <article class="condition-card condition-card--loading">
+            <span class="condition-icon" aria-hidden="true">◉</span>
+            <p class="condition-label">Air quality</p>
+            <p class="condition-value">—</p>
+            <p class="condition-note">US AQI</p>
+          </article>
+          <article class="condition-card condition-card--loading">
+            <span class="condition-icon" aria-hidden="true">↗</span>
+            <p class="condition-label">UV index</p>
+            <p class="condition-value">—</p>
+            <p class="condition-note">Today's peak</p>
+          </article>
+          <article class="condition-card condition-card--loading">
+            <span class="condition-icon" aria-hidden="true">◌</span>
+            <p class="condition-label">Daylight</p>
+            <p class="condition-value">—</p>
+            <p class="condition-note">Available today</p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="saved-places"
+        class="saved-section"
+        aria-labelledby="saved-heading"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">YOUR SHORTLIST</p>
+            <h2 id="saved-heading">Places to come back to</h2>
+          </div>
+          <p class="saved-caption">Your saved places stay on this device.</p>
+        </div>
+        <div id="saved-places-list" class="saved-places-list">
+          <p class="saved-empty">
+            Save a place from its forecast and it will be waiting here.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand brand--footer" href="./">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M7 30.5 20 8l13 22.5H7Z" />
+            <path d="m15.3 30.5 4.7-8 4.7 8M20 8v8.5" />
+          </svg>
+        </span>
+        <span>fieldnotes<span class="brand-period">.</span></span>
+      </a>
+      <p>Made for the days you’ll remember.</p>
+      <p class="data-credit">
+        Weather and air-quality data by
+        <a href="https://open-meteo.com/" target="_blank" rel="noreferrer"
+          >Open-Meteo</a
+        >.
+      </p>
+    </footer>
+  </body>
+</html>

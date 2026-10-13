@@ -27,4 +27,46 @@ the production version with `npm run build`; Vite writes the deployable site to
 `dist/`.
 
 ---
+
 _BYU-Pathway Worldwide improves lives through access to spiritually based, online affordable higher education. Its mission is to develop disciples of Jesus Christ who are leaders in their homes, the Church, and their communities._
+
+## Fieldnotes trip planner
+
+Fieldnotes is a separate, responsive outdoor-trip planning application included
+in this repository. The original SleepOutside storefront remains available at
+the site root; Fieldnotes is available at `/fieldnotes/`.
+
+### Run and build
+
+Use the existing project commands:
+
+- `npm run start` and open `/fieldnotes/` for local development.
+- `npm run build` to build both the storefront and Fieldnotes for deployment.
+- `npm run preview` to check the production build locally.
+
+### Project highlights
+
+- Searches worldwide locations using the Open-Meteo Geocoding API.
+- Loads seven-day forecasts and separate air-quality data from Open-Meteo.
+- Renders current conditions, seven daily forecast cards, sunrise/sunset,
+  daylight duration, UV index, and air-quality guidance from API JSON.
+- Supports place search, refresh, saving/removing places, Celsius/Fahrenheit,
+  and persistent light/dark themes.
+- Saves the selected unit, theme, saved places, and last viewed place in
+  `localStorage`.
+- Includes responsive layouts, hover/transition states, motion effects,
+  keyboard-accessible controls, and reduced-motion support.
+
+Open-Meteo provides the live data; location search and weather conditions need
+an internet connection. Air quality is treated as optional so the forecast can
+still be used while that service is unavailable.
+
+### Skills demonstration checklist
+
+Use Fieldnotes as one of the projects documented in the W07 Skills Development
+document. When completing the submission, include your own name, public app
+URL, source repository URL, Trello board URL, and public video URL. Those
+personal and deployment links are intentionally not invented in this
+repository. In the video, demonstrate a place search, forecast, saved-place
+interaction, unit/theme settings, and the corresponding implementation in
+`src/fieldnotes/`.

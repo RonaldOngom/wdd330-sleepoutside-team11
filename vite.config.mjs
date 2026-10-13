@@ -28,6 +28,7 @@ export default defineConfig({
           __dirname,
           'src/product_pages/northface-talus-4.html',
         ),
+        fieldnotes: resolve(__dirname, 'src/fieldnotes/index.html'),
       },
     },
   },
