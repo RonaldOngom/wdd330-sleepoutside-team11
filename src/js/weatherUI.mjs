@@ -66,7 +66,8 @@ function renderSearchResults(results, onSelect) {
   if (!container) return;
 
   if (!results.length) {
-    container.innerHTML = '<p class="weather-empty">No matching locations were found.</p>';
+    container.innerHTML =
+      '<p class="weather-empty">No matching locations were found.</p>';
     return;
   }
 
@@ -102,14 +103,16 @@ function renderWeatherCards() {
 
   const current = state.currentForecast.current;
   const daily = state.currentForecast.daily;
-  const cards = Array.from({ length: Math.min(5, daily.time.length) }, (_, index) => {
-    const date = daily.time[index];
-    const low = daily.temperature_2m_min[index];
-    const high = daily.temperature_2m_max[index];
-    const rainChance = daily.precipitation_probability_max[index];
-    const code = daily.weather_code[index];
+  const cards = Array.from(
+    { length: Math.min(5, daily.time.length) },
+    (_, index) => {
+      const date = daily.time[index];
+      const low = daily.temperature_2m_min[index];
+      const high = daily.temperature_2m_max[index];
+      const rainChance = daily.precipitation_probability_max[index];
+      const code = daily.weather_code[index];
 
-    return `
+      return `
       <article class="weather-card">
         <p class="weather-card__label">${formatDay(date)}</p>
         <h3>${formatTemperature(high)} / ${formatTemperature(low)}</h3>
@@ -117,7 +120,8 @@ function renderWeatherCards() {
         <span>Rain: ${rainChance}%</span>
       </article>
     `;
-  }).join('');
+    },
+  ).join('');
 
   const airQuality = state.currentAirQuality.current?.us_aqi ?? 'N/A';
 
@@ -150,7 +154,8 @@ function updateLocationName(locationName) {
   const locationElement = document.getElementById('weather-location-name');
   if (!locationElement) return;
   if (!locationName) {
-    locationElement.textContent = 'Search a location to see conditions for your next trip.';
+    locationElement.textContent =
+      'Search a location to see conditions for your next trip.';
     return;
   }
   locationElement.textContent = `${locationName}`;
@@ -161,7 +166,8 @@ async function loadLocationData(location) {
   if (!results.length) {
     const container = document.getElementById('weather-results');
     if (container) {
-      container.innerHTML = '<p class="weather-empty">No matching locations were found.</p>';
+      container.innerHTML =
+        '<p class="weather-empty">No matching locations were found.</p>';
     }
     return;
   }
@@ -191,7 +197,8 @@ async function selectLocation(location) {
     state.currentAirQuality = airQuality;
     renderWeatherCards();
   } catch {
-    container.innerHTML = '<p class="weather-empty">Weather data could not be loaded for this location.</p>';
+    container.innerHTML =
+      '<p class="weather-empty">Weather data could not be loaded for this location.</p>';
   }
 }
 
@@ -203,7 +210,14 @@ export function initWeatherPanel() {
   const refreshButton = document.getElementById('weather-refresh');
   const locationName = document.getElementById('weather-location-name');
 
-  if (!panel || !searchInput || !searchButton || !unitToggle || !refreshButton || !locationName) {
+  if (
+    !panel ||
+    !searchInput ||
+    !searchButton ||
+    !unitToggle ||
+    !refreshButton ||
+    !locationName
+  ) {
     return;
   }
 
@@ -227,7 +241,8 @@ export function initWeatherPanel() {
   searchButton.addEventListener('click', async () => {
     const query = searchInput.value.trim();
     if (!query) {
-      locationName.textContent = 'Enter a location to search for camping weather.';
+      locationName.textContent =
+        'Enter a location to search for camping weather.';
       return;
     }
 
@@ -256,7 +271,9 @@ export function initWeatherPanel() {
   });
 
   refreshButton.addEventListener('click', () => {
-    const query = searchInput.value.trim() || getLocalStorage(STORAGE_KEYS.location, 'Moab');
+    const query =
+      searchInput.value.trim() ||
+      getLocalStorage(STORAGE_KEYS.location, 'Moab');
     if (query) {
       loadLocationData(query);
     }

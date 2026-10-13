@@ -1,6 +1,6 @@
 :root {
   --font-body: Arial, Helvetica, sans-serif;
-  --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  --font-headline: Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   /* colors */
   --primary-color: #f0a868;
   --secondary-color: #525b0f;
@@ -44,7 +44,9 @@ body {
   font-size: var(--font-base);
   color: var(--text-color);
   background: linear-gradient(180deg, var(--page-bg) 0%, #fff8f1 100%);
-  transition: background 0.35s ease, color 0.35s ease;
+  transition:
+    background 0.35s ease,
+    color 0.35s ease;
 }
 
 body[data-theme='dark'] {
@@ -379,7 +381,11 @@ button:disabled {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(240, 168, 104, 0.12), rgba(82, 91, 15, 0.08));
+  background: linear-gradient(
+    135deg,
+    rgba(240, 168, 104, 0.12),
+    rgba(82, 91, 15, 0.08)
+  );
   border: 1px solid rgb(240 168 104 / 0.35);
   animation: fadeInUp 0.45s ease both;
 }
@@ -480,7 +486,9 @@ button:disabled {
   background: rgba(255, 255, 255, 0.9);
   color: #b23a48;
   font-size: 1.2rem;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .favorite-button--active {

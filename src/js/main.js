@@ -6,8 +6,12 @@ function applyTheme(theme) {
   document.body.dataset.theme = normalizedTheme;
   const toggle = document.getElementById('theme-toggle');
   if (toggle) {
-    toggle.textContent = normalizedTheme === 'dark' ? '☀️ Light mode' : '🌙 Dark mode';
-    toggle.setAttribute('aria-label', `Switch to ${normalizedTheme === 'dark' ? 'light' : 'dark'} mode`);
+    toggle.textContent =
+      normalizedTheme === 'dark' ? '☀️ Light mode' : '🌙 Dark mode';
+    toggle.setAttribute(
+      'aria-label',
+      `Switch to ${normalizedTheme === 'dark' ? 'light' : 'dark'} mode`,
+    );
   }
 }
 

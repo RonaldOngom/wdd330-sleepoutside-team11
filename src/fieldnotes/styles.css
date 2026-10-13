@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap');
 
 :root {
   color-scheme: light;
-  font-family: "DM Sans", sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   --page: #f5f6f2;
@@ -21,7 +21,7 @@
   color: var(--ink);
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   color-scheme: dark;
   --page: #17221d;
   --surface: #202d26;
@@ -171,7 +171,7 @@ main,
   left: 0;
   height: 2px;
   background: var(--green);
-  content: "";
+  content: '';
 }
 
 .header-actions {
@@ -236,7 +236,7 @@ main,
     linear-gradient(115deg, #e6ecdf, #eaf0e9 61%, #e1e9e0);
 }
 
-:root[data-theme="dark"] .intro-section {
+:root[data-theme='dark'] .intro-section {
   background: radial-gradient(
       ellipse at 88% 0%,
       rgb(143 174 143 / 14%) 0 3%,
@@ -256,7 +256,7 @@ main,
   height: 88%;
   border: 1px solid rgb(74 108 79 / 13%);
   border-radius: 50%;
-  content: "";
+  content: '';
   pointer-events: none;
 }
 
@@ -307,7 +307,7 @@ p {
 
 .intro-copy h1 em {
   color: var(--green);
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 500;
   letter-spacing: -2.6px;
 }
@@ -578,7 +578,7 @@ p {
   box-shadow:
     0 0 0 27px rgb(255 255 255 / 4%),
     0 0 0 55px rgb(255 255 255 / 3%);
-  content: "";
+  content: '';
 }
 
 .current-card__top,
