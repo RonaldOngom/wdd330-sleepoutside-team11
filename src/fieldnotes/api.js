@@ -40,7 +40,6 @@ export async function getTripConditions(place) {
     ...coordinates,
     current:
       'temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m',
-    hourly: 'precipitation_probability',
     daily:
       'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset,uv_index_max,wind_speed_10m_max',
     forecast_days: '7',

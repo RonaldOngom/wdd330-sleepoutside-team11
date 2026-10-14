@@ -52,6 +52,7 @@ Use the existing project commands:
   daylight duration, UV index, and air-quality guidance from API JSON.
 - Supports place search, refresh, saving/removing places, Celsius/Fahrenheit,
   and persistent light/dark themes.
+- Displays wind speed in km/h with Celsius and mph with Fahrenheit.
 - Saves the selected unit, theme, saved places, and last viewed place in
   `localStorage`.
 - Includes responsive layouts, hover/transition states, motion effects,

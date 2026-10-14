@@ -116,6 +116,13 @@
         white-space: nowrap;
         width: 12%;
       }
+      .rubric {
+        font-size: 9pt;
+      }
+      .rubric tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
     </style>
   </head>
   <body>
@@ -157,7 +164,10 @@
       <tr>
         <th>Video presentation</th>
         <td>
-          <strong>[ADD YOUR PUBLIC VIDEO URL BEFORE SUBMITTING]</strong>
+          <strong>
+            Public single-video URL not supplied. Add the direct video link
+            here before submitting.
+          </strong>
         </td>
       </tr>
     </table>
@@ -166,10 +176,10 @@
       <strong>Submission action required:</strong> Record and publish an
       approximately five-minute screen walkthrough that shows your face at
       least at the beginning, demonstrates the running app, and explains the
-      code examples below. Replace the video placeholder above with a public
-      Loom, YouTube, or other hosted video link before uploading this document.
-      The video has not been recorded or published as part of this document
-      preparation.
+      code examples below. Replace the pending-video note above with the
+      publicly accessible URL for one individual video (not a Loom folder or
+      collection) before uploading this document. The video has not been
+      recorded or published as part of this document preparation.
     </div>
 
     <h2>Project overview</h2>
@@ -180,18 +190,13 @@
       details, save places for later, and personalize temperature units and
       theme. The interface is populated from live Open-Meteo JSON responses.
     </p>
-    <p>
-      The application is published as a separate route in the course
-      repository. The SleepOutside storefront remains at the repository root;
-      Fieldnotes is served from <code>/fieldnotes/</code>.
-    </p>
-
     <h2>Skills evidence mapped to the rubric</h2>
     <table class="rubric">
       <thead>
         <tr>
           <th>Rubric area</th>
-          <th>Fieldnotes implementation and evidence</th>
+          <th>Where this can be seen in Fieldnotes</th>
+          <th>Fieldnotes implementation</th>
           <th class="score">Target</th>
         </tr>
       </thead>
@@ -199,86 +204,113 @@
         <tr>
           <td><strong>JavaScript</strong></td>
           <td>
-            <code>app.js</code> manages app state, validates search input,
-            handles asynchronous place and weather requests, prevents stale
-            responses from replacing newer results, converts units, and
-            dynamically creates the forecast, condition, search-result, and
-            saved-place interfaces from returned data. Errors and optional
-            air-quality availability have user-visible handling.
+            Search for a place and select a result: the current-conditions
+            panel, seven-day cards, and condition cards update for that
+            location. Save and reopen a place, refresh the forecast, and use
+            the unit and theme controls.
+          </td>
+          <td>
+            JavaScript validates searches, handles asynchronous API
+            integration/data-layer responses, guards against stale responses,
+            converts values, and dynamically renders interface cards and
+            accessible loading/error states.
           </td>
           <td class="score">25 / 25</td>
         </tr>
         <tr>
           <td><strong>Third-party APIs</strong></td>
           <td>
-            <code>api.js</code> uses three Open-Meteo endpoints: Geocoding
-            (<code>geocoding-api.open-meteo.com/v1/search</code>), weather
-            Forecast (<code>api.open-meteo.com/v1/forecast</code>), and Air
-            Quality (<code>air-quality-api.open-meteo.com/v1/air-quality</code>).
-            Forecast and air-quality requests run concurrently; air quality is
-            optional if that endpoint is unavailable.
+            Use the location search, open a forecast, then inspect the air
+            quality card in the “Know before you go” section.
+          </td>
+          <td>
+            Open-Meteo Geocoding finds locations, the Forecast endpoint
+            supplies current and daily conditions, and the Air Quality
+            endpoint supplies AQI data. Forecast and air-quality requests run
+            concurrently; the forecast remains usable when air quality is
+            unavailable.
           </td>
           <td class="score">25 / 25</td>
         </tr>
         <tr>
           <td><strong>JSON</strong></td>
           <td>
-            Geocoding returns an array of matching place objects. Forecast
-            responses provide current conditions and parallel daily arrays,
-            including date, weather code, maximum/minimum temperature,
-            precipitation probability, sunrise, sunset, UV index, and maximum
-            wind speed. JavaScript maps daily entries into seven visible
-            forecast cards and uses the response to create conditions cards.
+            Search results appear below the search box; selecting a place
+            populates the seven-day forecast and the sunrise, AQI, UV, and
+            daylight cards with live values.
+          </td>
+          <td>
+            Arrays of geocoding results and forecast daily data (dates, weather
+            codes, temperatures, precipitation probabilities, sunrise,
+            sunset, UV, and wind speed) are used to create the visible
+            interface.
           </td>
           <td class="score">10 / 10</td>
         </tr>
         <tr>
           <td><strong>Advanced CSS</strong></td>
           <td>
-            <code>styles.css</code> provides responsive layouts, light/dark
-            theme tokens, interactive hover/focus treatments and transitions,
-            animated loading and entrance states, and reduced-motion support.
-            These effects appear across controls, cards, loading, and content
-            reveal states.
+            Resize the browser to see the forecast and condition-card layout
+            adapt. Hover or focus interactive controls and cards, switch the
+            theme, and observe loading/entrance effects.
+          </td>
+          <td>
+            Responsive CSS, light/dark theme variables, hover/focus
+            transitions, keyframe animations, and reduced-motion support style
+            the Fieldnotes interface.
           </td>
           <td class="score">10 / 10</td>
         </tr>
         <tr>
           <td><strong>Events</strong></td>
           <td>
-            The app responds to search form submission, search input changes,
-            Escape key presses in the input/results, selecting a search result,
-            save/remove actions, saved-place selection, unit toggle, theme
-            toggle, refresh, and clicks outside the search form.
+            Submit a place search, select a result, save/remove and reopen a
+            place, switch units and theme, refresh, or press Escape while
+            results are open.
+          </td>
+          <td>
+            Form submit, input, keyboard, selection, save/remove, unit, theme,
+            refresh, and outside-click handlers update the application
+            responsively.
           </td>
           <td class="score">10 / 10</td>
         </tr>
         <tr>
-          <td><strong>LocalStorage</strong></td>
+          <td><strong>Local storage</strong></td>
           <td>
-            The <code>fieldnotes-preferences</code> object persists four
-            properties: <code>unit</code>, <code>theme</code>,
-            <code>places</code>, and <code>lastPlace</code>. They restore the
-            visitor's saved settings and shortlist on reload.
+            Save a location, change units/theme, and reload the page. The saved
+            place and preferences are restored.
+          </td>
+          <td>
+            Four properties are stored and restored: <code>unit</code>,
+            <code>theme</code>, <code>places</code>, and <code>lastPlace</code>.
+            Invalid stored JSON is handled safely.
           </td>
           <td class="score">5 / 5</td>
         </tr>
         <tr>
           <td><strong>Trello board</strong></td>
           <td>
-            Trello visibility is set to Public. Six finished project tasks are
-            in the Completed list and individually marked complete; each card
-            includes a summary with links to implementation evidence and the
-            live app. Direct links are listed below.
+            Open the public Fieldnotes Trello board and inspect its Completed
+            list. Each finished card is marked complete and includes a
+            description with links to the implementation and live app.
+          </td>
+          <td>
+            The board records project progress and evidence for the Fieldnotes
+            application.
           </td>
           <td class="score">5 / 5</td>
         </tr>
         <tr>
           <td><strong>Video</strong></td>
           <td>
-            Not yet supplied. This criterion requires the student's own public
-            recording (approximately five minutes, face visible at least at
-            the beginning, with application and code demonstration).
+            One public, approximately five-minute video URL is still required.
+            The recording should show your face at the beginning, demonstrate
+            Fieldnotes in the browser, and explain its code.
+          </td>
+          <td>
+            Not yet supplied. Record and publish one video, add its direct
+            video URL, and test it in a private browser window.
           </td>
           <td class="score">Pending</td>
         </tr>
@@ -287,9 +319,8 @@
 
     <h3>Public board and completed-task evidence</h3>
     <p>
-      The board menu reports <strong>Visibility: Public</strong>. The following
-      completed cards show the finished task, its evidence description, and
-      the Trello completion state:
+      The board is public. The following completed cards show the finished
+      task, its evidence description, and the Trello completion state:
     </p>
     <ul>
       <li>
@@ -350,8 +381,9 @@
           </td>
           <td>
             URL construction and query parameters; JSON retrieval and HTTP
-            errors; parallel forecast/air-quality requests; validation of
-            required forecast response data.
+            errors; <code>Promise.allSettled</code> for parallel
+            forecast/air-quality requests; validation of required forecast
+            response data.
           </td>
         </tr>
         <tr>
@@ -363,7 +395,8 @@
           <td>
             State and persisted preferences; accessible status messages;
             rendering seven daily cards from API arrays; derived daylight and
-            AQI guidance; save/remove; request sequencing; event listeners.
+            AQI guidance; save/remove; request sequencing through
+            <code>requestId</code>; event listeners.
           </td>
         </tr>
         <tr>
@@ -404,10 +437,10 @@
       </li>
       <li>
         Saving a place, switching from Celsius to Fahrenheit, enabling dark
-        theme, and reloading restored the saved place and preferences.
+        theme, and reloading restored the saved place and preferences. Wind
+        speed follows the selected unit: km/h in Celsius and mph in Fahrenheit.
       </li>
       <li><code>npm run lint</code> completed successfully.</li>
-      <li><code>npm test</code> passed all 8 existing tests.</li>
       <li><code>npm run build</code> completed successfully.</li>
       <li>
         GitHub Pages deployment workflow completed successfully:
@@ -417,59 +450,113 @@
       </li>
     </ul>
 
-    <h2>Five-minute video run-through</h2>
+    <h2>Five-minute video script and run-through</h2>
+    <p>
+      Use this as a spoken outline rather than reading mechanically. Keep your
+      face visible during the introduction, share your screen for the
+      demonstration, and use the code sections to explain the named logic.
+    </p>
     <table class="evidence">
       <thead>
         <tr>
           <th class="time">Time</th>
-          <th>Recording plan</th>
+          <th>On screen and spoken script</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>0:00–0:30</td>
           <td>
-            Show your face, introduce yourself and Fieldnotes, and state the
-            purpose of the application.
+            <strong>Camera on; introduce the project.</strong>
+            “Hello, my name is Ronald Ongom, and this is my WDD 330 final
+            project, Fieldnotes. It helps people check weather and outdoor
+            conditions before visiting a place. I’ll demonstrate the live
+            application and explain how its API integration, JavaScript, and
+            CSS make it work.”
           </td>
         </tr>
         <tr>
           <td>0:30–1:50</td>
           <td>
-            In the browser, search for a location, select a result, and explain
-            the current conditions, seven-day forecast, AQI, UV, sunrise, and
-            daylight cards.
+            <strong>Show the live app; search for Zion National Park.</strong>
+            “I’ll search for Zion National Park and select the matching place.
+            The current-conditions card and seven-day forecast now show data
+            for this location. Each day includes its weather, high and low
+            temperatures, and chance of rain. In ‘Know before you go,’
+            Fieldnotes also displays sunrise, air quality, UV index, and
+            daylight duration. These values come from API responses, so
+            searching for another place updates the forecast. If air quality
+            is unavailable, the weather forecast can still load.”
           </td>
         </tr>
         <tr>
           <td>1:50–2:40</td>
           <td>
-            Save the selected place, change temperature units and theme, refresh
-            the forecast, and show saved-place persistence after reload.
+            <strong>Show the interactions and localStorage behavior.</strong>
+            “I can save this place with the star and return to it from my
+            shortlist. I can switch from Celsius to Fahrenheit; the wind
+            display changes from kilometres per hour to miles per hour along
+            with the temperature display. I can also switch the color theme
+            and refresh the forecast. The saved place, selected unit, theme,
+            and last viewed place are stored in this browser. After reload,
+            those preferences are restored.”
           </td>
         </tr>
         <tr>
-          <td>2:40–4:25</td>
+          <td>2:40–3:30</td>
           <td>
-            Show <code>api.js</code> for the three API endpoints and JSON
-            handling, then <code>app.js</code> for rendering, event handling,
-            asynchronous-state protection, and localStorage.
+            <strong>Show <code>src/fieldnotes/api.js</code>.</strong>
+            “The API integration layer uses three Open-Meteo endpoints:
+            Geocoding for place search, Forecast for current and daily weather,
+            and Air Quality for AQI data. In <code>getTripConditions</code>,
+            <code>Promise.allSettled</code> starts the forecast and air-quality
+            requests concurrently. I check the forecast result separately:
+            if the forecast fails, the app reports an error; if only air
+            quality fails, the forecast remains available and the AQI is
+            treated as unavailable. The fetch helper also checks HTTP errors
+            and applies a timeout.”
           </td>
         </tr>
         <tr>
-          <td>4:25–5:00</td>
+          <td>3:30–4:20</td>
           <td>
-            Show <code>styles.css</code> for responsive and animated details,
-            then close by displaying the live app, source repository, and
-            Fieldnotes Trello board.
+            <strong>Show <code>src/fieldnotes/app.js</code>.</strong>
+            “This file turns the returned JSON into the interface. The daily
+            arrays are mapped into seven forecast cards, and current and daily
+            data are used for the condition details. The
+            <code>requestId</code> protects the page when requests overlap:
+            every new forecast request increments the ID, and after each
+            asynchronous request the code compares its saved ID with the
+            current one. If they differ, that response is stale and is
+            ignored, so an older search cannot overwrite a newer result.”
+          </td>
+        </tr>
+        <tr>
+          <td>4:20–4:45</td>
+          <td>
+            <strong>Show <code>src/fieldnotes/styles.css</code>.</strong>
+            “The CSS provides responsive layouts, light and dark themes,
+            hover and focus feedback, and loading and entrance animations.
+            Reduced-motion preferences are supported for visitors who prefer
+            less animation.”
+          </td>
+        </tr>
+        <tr>
+          <td>4:45–5:00</td>
+          <td>
+            <strong>Show the public Trello board, then close.</strong>
+            “My public Fieldnotes Trello board records the project tasks and
+            links to their evidence. Here are the live app, source repository,
+            and board. Thank you for watching.”
           </td>
         </tr>
       </tbody>
     </table>
     <p class="small">
       Before submitting: publish the recording with public access, test its URL
-      in a private/incognito window, replace the video placeholder in this
-      document, and upload the final document to Canvas.
+      in a private/incognito window, replace the pending-video note in this
+      document with the direct URL to one video (not a folder), and upload the
+      final document to Canvas.
     </p>
   </body>
 </html>

@@ -84,6 +84,13 @@ function degrees(celsius) {
   return `${Math.round(value)}°`;
 }
 
+function formatWindSpeed(kilometersPerHour) {
+  const speed =
+    state.unit === 'F' ? kilometersPerHour * 0.621371 : kilometersPerHour;
+  const unit = state.unit === 'F' ? 'mph' : 'km/h';
+  return `${Math.round(speed)} ${unit} wind`;
+}
+
 function describeWeather(code) {
   if (code === 0) return { label: 'Clear sky', icon: '☀' };
   if (code === 1) return { label: 'Mostly clear', icon: '◒' };
@@ -225,7 +232,7 @@ function renderForecast() {
   currentMeta.append(
     element('span', '', `Feels like ${degrees(current.apparent_temperature)}`),
     element('span', '', `${current.relative_humidity_2m}% humidity`),
-    element('span', '', `${Math.round(current.wind_speed_10m)} km/h wind`),
+    element('span', '', formatWindSpeed(current.wind_speed_10m)),
   );
   hero.append(heroTop, currentMain, currentMeta);
 
