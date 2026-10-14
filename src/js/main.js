@@ -1,4 +1,5 @@
 import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { initProductSearch } from './productSearch.mjs';
 import { initWeatherPanel } from './weatherUI.mjs';
 
 function applyTheme(theme) {
@@ -32,4 +33,5 @@ function initThemeToggle() {
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initWeatherPanel();
+  initProductSearch();
 });

@@ -109,6 +109,48 @@
 
       <section class="products">
         <h2>Top Products</h2>
+        <form
+          id="product-search-form"
+          class="product-search-tools"
+          role="search"
+        >
+          <label class="product-search-field" for="product-search">
+            Search products
+            <input
+              id="product-search"
+              type="search"
+              placeholder="Try “Marmot” or “3-person”"
+              autocomplete="off"
+            />
+          </label>
+          <label class="product-filter-field" for="product-brand-filter">
+            Brand
+            <select id="product-brand-filter">
+              <option value="">All brands</option>
+            </select>
+          </label>
+          <label class="product-filter-field" for="product-sort">
+            Sort by
+            <select id="product-sort">
+              <option value="featured">Featured</option>
+              <option value="price-ascending">Price: low to high</option>
+              <option value="price-descending">Price: high to low</option>
+            </select>
+          </label>
+          <button
+            id="product-search-reset"
+            class="secondary-button"
+            type="button"
+          >
+            Clear
+          </button>
+        </form>
+        <p
+          id="product-results-status"
+          class="product-results-status"
+          role="status"
+          aria-live="polite"
+        ></p>
         <ul class="product-list">
           <li class="product-card">
             <a href="product_pages/marmot-ajax-3.html">
