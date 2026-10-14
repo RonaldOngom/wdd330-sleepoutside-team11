@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fieldnotes | WDD 330 Skills Development Assessment</title>
+    <style>
+      @page {
+        size: Letter;
+        margin: 0.72in;
+      }
+      body {
+        color: #23332d;
+        font-family: "Aptos", "Arial", sans-serif;
+        font-size: 10pt;
+        line-height: 1.42;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #174d3a;
+      }
+      h1 {
+        font-size: 26pt;
+        margin: 0 0 5pt;
+      }
+      h2 {
+        border-bottom: 1px solid #cad9cf;
+        font-size: 16pt;
+        margin: 23pt 0 8pt;
+        padding-bottom: 4pt;
+      }
+      h3 {
+        font-size: 11pt;
+        margin: 14pt 0 4pt;
+      }
+      p {
+        margin: 5pt 0 8pt;
+      }
+      a {
+        color: #176b50;
+        text-decoration: underline;
+      }
+      .cover {
+        border-bottom: 3px solid #d88a48;
+        margin-bottom: 17pt;
+        padding: 18pt 0 15pt;
+      }
+      .eyebrow {
+        color: #a35e2c;
+        font-size: 9pt;
+        font-weight: bold;
+        letter-spacing: 1.5pt;
+        text-transform: uppercase;
+      }
+      .subtitle {
+        color: #5c7066;
+        font-size: 14pt;
+      }
+      .details,
+      .rubric,
+      .evidence {
+        border-collapse: collapse;
+        margin: 9pt 0 15pt;
+        width: 100%;
+      }
+      th {
+        background: #174d3a;
+        color: white;
+        font-weight: bold;
+        text-align: left;
+      }
+      th,
+      td {
+        border: 1px solid #cbd7cf;
+        padding: 6pt 7pt;
+        vertical-align: top;
+      }
+      .details th {
+        background: #edf3ee;
+        color: #23332d;
+        width: 24%;
+      }
+      .notice {
+        background: #fff3df;
+        border-left: 4px solid #d88a48;
+        margin: 12pt 0;
+        padding: 9pt 11pt;
+      }
+      .success {
+        background: #edf6ef;
+        border-left: 4px solid #34825e;
+        margin: 12pt 0;
+        padding: 9pt 11pt;
+      }
+      .small {
+        color: #5c7066;
+        font-size: 9pt;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      ul,
+      ol {
+        margin: 4pt 0 8pt;
+        padding-left: 20pt;
+      }
+      li {
+        margin: 2pt 0;
+      }
+      .time {
+        white-space: nowrap;
+        width: 14%;
+      }
+      .score {
+        text-align: center;
+        white-space: nowrap;
+        width: 12%;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="cover">
+      <p class="eyebrow">WDD 330 · Web Frontend Development II</p>
+      <h1>Skills Development Assessment</h1>
+      <p class="subtitle">Fieldnotes — Outdoor Trip Planner</p>
+    </header>
+
+    <table class="details">
+      <tr>
+        <th>Student</th>
+        <td>Ronald Ongom</td>
+      </tr>
+      <tr>
+        <th>Live application</th>
+        <td>
+          <a href="https://ronaldongom.github.io/wdd330-sleepoutside-team11/fieldnotes/">
+            https://ronaldongom.github.io/wdd330-sleepoutside-team11/fieldnotes/
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th>Source code</th>
+        <td>
+          <a href="https://github.com/RonaldOngom/wdd330-sleepoutside-team11">
+            https://github.com/RonaldOngom/wdd330-sleepoutside-team11
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th>Fieldnotes Trello board</th>
+        <td>
+          <a href="https://trello.com/b/v8NAFHeJ/fieldnotes-outdoor-trip-planner">
+            https://trello.com/b/v8NAFHeJ/fieldnotes-outdoor-trip-planner
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th>Video presentation</th>
+        <td>
+          <strong>[ADD YOUR PUBLIC VIDEO URL BEFORE SUBMITTING]</strong>
+        </td>
+      </tr>
+    </table>
+
+    <div class="notice">
+      <strong>Submission action required:</strong> Record and publish an
+      approximately five-minute screen walkthrough that shows your face at
+      least at the beginning, demonstrates the running app, and explains the
+      code examples below. Replace the video placeholder above with a public
+      Loom, YouTube, or other hosted video link before uploading this document.
+      The video has not been recorded or published as part of this document
+      preparation.
+    </div>
+
+    <h2>Project overview</h2>
+    <p>
+      Fieldnotes is a responsive trip-planning experience for people preparing
+      to spend time outdoors. A visitor can search for a place, review current
+      conditions and a seven-day forecast, check air quality and daylight
+      details, save places for later, and personalize temperature units and
+      theme. The interface is populated from live Open-Meteo JSON responses.
+    </p>
+    <p>
+      The application is published as a separate route in the course
+      repository. The SleepOutside storefront remains at the repository root;
+      Fieldnotes is served from <code>/fieldnotes/</code>.
+    </p>
+
+    <h2>Skills evidence mapped to the rubric</h2>
+    <table class="rubric">
+      <thead>
+        <tr>
+          <th>Rubric area</th>
+          <th>Fieldnotes implementation and evidence</th>
+          <th class="score">Target</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>JavaScript</strong></td>
+          <td>
+            <code>app.js</code> manages app state, validates search input,
+            handles asynchronous place and weather requests, prevents stale
+            responses from replacing newer results, converts units, and
+            dynamically creates the forecast, condition, search-result, and
+            saved-place interfaces from returned data. Errors and optional
+            air-quality availability have user-visible handling.
+          </td>
+          <td class="score">25 / 25</td>
+        </tr>
+        <tr>
+          <td><strong>Third-party APIs</strong></td>
+          <td>
+            <code>api.js</code> uses three Open-Meteo endpoints: Geocoding
+            (<code>geocoding-api.open-meteo.com/v1/search</code>), weather
+            Forecast (<code>api.open-meteo.com/v1/forecast</code>), and Air
+            Quality (<code>air-quality-api.open-meteo.com/v1/air-quality</code>).
+            Forecast and air-quality requests run concurrently; air quality is
+            optional if that endpoint is unavailable.
+          </td>
+          <td class="score">25 / 25</td>
+        </tr>
+        <tr>
+          <td><strong>JSON</strong></td>
+          <td>
+            Geocoding returns an array of matching place objects. Forecast
+            responses provide current conditions and parallel daily arrays,
+            including date, weather code, maximum/minimum temperature,
+            precipitation probability, sunrise, sunset, UV index, and maximum
+            wind speed. JavaScript maps daily entries into seven visible
+            forecast cards and uses the response to create conditions cards.
+          </td>
+          <td class="score">10 / 10</td>
+        </tr>
+        <tr>
+          <td><strong>Advanced CSS</strong></td>
+          <td>
+            <code>styles.css</code> provides responsive layouts, light/dark
+            theme tokens, interactive hover/focus treatments and transitions,
+            animated loading and entrance states, and reduced-motion support.
+            These effects appear across controls, cards, loading, and content
+            reveal states.
+          </td>
+          <td class="score">10 / 10</td>
+        </tr>
+        <tr>
+          <td><strong>Events</strong></td>
+          <td>
+            The app responds to search form submission, search input changes,
+            Escape key presses in the input/results, selecting a search result,
+            save/remove actions, saved-place selection, unit toggle, theme
+            toggle, refresh, and clicks outside the search form.
+          </td>
+          <td class="score">10 / 10</td>
+        </tr>
+        <tr>
+          <td><strong>LocalStorage</strong></td>
+          <td>
+            The <code>fieldnotes-preferences</code> object persists four
+            properties: <code>unit</code>, <code>theme</code>,
+            <code>places</code>, and <code>lastPlace</code>. They restore the
+            visitor's saved settings and shortlist on reload.
+          </td>
+          <td class="score">5 / 5</td>
+        </tr>
+        <tr>
+          <td><strong>Trello board</strong></td>
+          <td>
+            The Fieldnotes board tracks completed design, API, weather
+            conditions, preferences, and validation work, alongside open W07
+            document/video tasks. The deployment-verification card includes
+            the public app, repository, and deployment evidence.
+          </td>
+          <td class="score">5 / 5</td>
+        </tr>
+        <tr>
+          <td><strong>Video</strong></td>
+          <td>
+            Not yet supplied. This criterion requires the student's own public
+            recording (approximately five minutes, face visible at least at
+            the beginning, with application and code demonstration).
+          </td>
+          <td class="score">Pending</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="success">
+      <strong>Self-assessment:</strong> Current project evidence is designed to
+      meet the rubric requirements for criteria 1–7 (90 points total). The
+      video criterion is still outstanding; do not treat this as a completed
+      100-point submission until the public video link has been added and
+      tested. Scores are an estimate, not a grade guarantee.
+    </div>
+
+    <div class="page-break"></div>
+    <h2>Code locations to demonstrate</h2>
+    <table class="evidence">
+      <thead>
+        <tr>
+          <th>Code location</th>
+          <th>What to point out in the presentation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://github.com/RonaldOngom/wdd330-sleepoutside-team11/blob/main/src/fieldnotes/api.js">
+              <code>src/fieldnotes/api.js</code>
+            </a>
+          </td>
+          <td>
+            URL construction and query parameters; JSON retrieval and HTTP
+            errors; parallel forecast/air-quality requests; validation of
+            required forecast response data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="https://github.com/RonaldOngom/wdd330-sleepoutside-team11/blob/main/src/fieldnotes/app.js">
+              <code>src/fieldnotes/app.js</code>
+            </a>
+          </td>
+          <td>
+            State and persisted preferences; accessible status messages;
+            rendering seven daily cards from API arrays; derived daylight and
+            AQI guidance; save/remove; request sequencing; event listeners.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="https://github.com/RonaldOngom/wdd330-sleepoutside-team11/blob/main/src/fieldnotes/styles.css">
+              <code>src/fieldnotes/styles.css</code>
+            </a>
+          </td>
+          <td>
+            Responsive breakpoints, theme variables, hover and focus
+            transitions, keyframe animation, and reduced-motion preferences.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="https://github.com/RonaldOngom/wdd330-sleepoutside-team11/blob/main/src/fieldnotes/index.html">
+              <code>src/fieldnotes/index.html</code>
+            </a>
+          </td>
+          <td>
+            Semantic page landmarks, search controls, accessible live status,
+            forecast/conditions/saved-place sections, and navigation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Verification completed</h2>
+    <ul>
+      <li>
+        The public Fieldnotes page and its deployed JavaScript and CSS assets
+        returned HTTP 200.
+      </li>
+      <li>
+        A live search for “Zion National Park” returned a matching place; that
+        selection rendered current conditions, seven daily forecasts, air
+        quality, UV, sunrise, and daylight values.
+      </li>
+      <li>
+        Saving a place, switching from Celsius to Fahrenheit, enabling dark
+        theme, and reloading restored the saved place and preferences.
+      </li>
+      <li><code>npm run lint</code> completed successfully.</li>
+      <li><code>npm test</code> passed all 8 existing tests.</li>
+      <li><code>npm run build</code> completed successfully.</li>
+      <li>
+        GitHub Pages deployment workflow completed successfully:
+        <a href="https://github.com/RonaldOngom/wdd330-sleepoutside-team11/actions/runs/38540913900">
+          workflow run 38540913900
+        </a>.
+      </li>
+    </ul>
+
+    <h2>Five-minute video run-through</h2>
+    <table class="evidence">
+      <thead>
+        <tr>
+          <th class="time">Time</th>
+          <th>Recording plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0:00–0:30</td>
+          <td>
+            Show your face, introduce yourself and Fieldnotes, and state the
+            purpose of the application.
+          </td>
+        </tr>
+        <tr>
+          <td>0:30–1:50</td>
+          <td>
+            In the browser, search for a location, select a result, and explain
+            the current conditions, seven-day forecast, AQI, UV, sunrise, and
+            daylight cards.
+          </td>
+        </tr>
+        <tr>
+          <td>1:50–2:40</td>
+          <td>
+            Save the selected place, change temperature units and theme, refresh
+            the forecast, and show saved-place persistence after reload.
+          </td>
+        </tr>
+        <tr>
+          <td>2:40–4:25</td>
+          <td>
+            Show <code>api.js</code> for the three API endpoints and JSON
+            handling, then <code>app.js</code> for rendering, event handling,
+            asynchronous-state protection, and localStorage.
+          </td>
+        </tr>
+        <tr>
+          <td>4:25–5:00</td>
+          <td>
+            Show <code>styles.css</code> for responsive and animated details,
+            then close by displaying the live app, source repository, and
+            Fieldnotes Trello board.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small">
+      Before submitting: publish the recording with public access, test its URL
+      in a private/incognito window, replace the video placeholder in this
+      document, and upload the final document to Canvas.
+    </p>
+  </body>
+</html>
